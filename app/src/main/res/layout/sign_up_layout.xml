@@ -1,0 +1,112 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true" >
+
+        <TextView
+            android:id="@+id/tvSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dip"
+            android:text="Mall Of Deals"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/etRegUserName"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:layout_below="@id/tvSignUp"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_marginTop="40dip"
+            android:background="@drawable/edit_text_ui"
+            android:hint="  Username"
+            android:padding="5dip"
+            android:textColor="#000000" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/etRegUserPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:layout_below="@id/etRegUserName"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/edit_text_ui"
+            android:hint=" Password"
+            android:inputType="textPassword"
+            android:padding="5dip"
+            android:textColor="#000000" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/etRegUserPasswordAgain"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:layout_below="@id/etRegUserPassword"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/edit_text_ui"
+            android:hint=" Password Again"
+            android:inputType="textPassword"
+            android:padding="5dip"
+            android:textColor="#000000" >
+        </EditText>
+
+        <AutoCompleteTextView
+            android:id="@+id/etRegEmail"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:layout_below="@id/etRegUserPasswordAgain"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/edit_text_ui"
+            android:hint=" Email"
+            android:inputType="textEmailAddress"
+            android:padding="5dip"
+            android:textColor="#000000" >
+        </AutoCompleteTextView>
+
+        <LinearLayout
+            android:id="@+id/loginRegButtonContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etRegEmail"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
+            android:layout_marginTop="30dip"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/btRegisterMain"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/button_ui2"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,96 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:id="@+id/loginFragment"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    >
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="center"
+        >
+
+
+        <EditText
+
+            android:id="@+id/etLogUserName"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:hint=" Username"
+            android:textSize="18sp"
+            android:textColorLink="#606060"
+            android:padding="5dip"
+            android:textColor="#000000"
+            android:textColorHint="#606060"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_marginTop="50dip"
+            android:background="@drawable/edit_text_ui" >
+
+        </EditText>
+
+        <EditText
+
+            android:textColor="#000000"
+            android:textColorHint="#606060"
+            android:id="@+id/etLogUserPassword"
+            android:inputType="textPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="41dip"
+            android:hint=" Password"
+            android:textSize="18sp"
+            android:padding="5dip"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_below="@id/etLogUserName"
+            android:background="@drawable/edit_text_ui">
+
+        </EditText>
+
+
+        <LinearLayout
+
+            android:id="@+id/loginRegButtonContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etLogUserPassword"
+            android:layout_marginLeft="25dip"
+            android:layout_marginRight="25dip"
+            android:layout_marginTop="30dip"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:id="@+id/btLogin"
+                android:layout_width="match_parent"
+                android:layout_height="45dip"
+                android:textSize="22sp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_ui2"
+                android:text="Log in"
+                android:textAllCaps="false"
+                android:textColor="#ffffff" />
+
+            <Button
+                android:id="@+id/btRegister"
+                android:layout_width="match_parent"
+                android:layout_height="45dip"
+                android:layout_marginTop="15dp"
+                android:textSize="22sp"
+                android:layout_weight="1"
+                android:background="@drawable/button_ui1"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
