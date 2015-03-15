@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
 import com.webianks.mallofdeals.Network.IsConnectedToNetwork;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForRetailers;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForShoppers;
@@ -48,10 +49,8 @@ public class RetailerEvents extends Fragment {
 
         mListView = (ListView) view.findViewById(R.id.main_list_view);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        errorView= (ErrorView) view.findViewById(R.id.error_view);
+        errorView= (ErrorView) view.findViewById(R.id.error_view_events);
         mProgressBar.setVisibility(View.VISIBLE);
-
-
 
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -59,7 +58,7 @@ public class RetailerEvents extends Fragment {
             @Override
             public void onRefresh() {
 
-                ParseFeedingWorksForRetailers.retrievePostFromParse(true);
+                ParseFeedingWorksForRetailers.retrievePostFromParse(true, ParseUser.getCurrentUser().toString());
                 swipeLayout.setRefreshing(true);
             }
 
@@ -93,10 +92,10 @@ public class RetailerEvents extends Fragment {
 
         }else{
             //subsequent run of app.
-            ParseFeedingWorksForRetailers.retrieveRetailerEventsLocally(false);
+            ParseFeedingWorksForRetailers.retrieveRetailerEventsLocally(false,ParseUser.getCurrentUser().toString());
             //now check for the new content
             if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
-                ParseFeedingWorksForRetailers.retrievePostFromParse(true);
+                ParseFeedingWorksForRetailers.retrievePostFromParse(true,ParseUser.getCurrentUser().toString());
             }
         }
 
@@ -136,7 +135,7 @@ public class RetailerEvents extends Fragment {
 
                         mProgressBar.setVisibility(View.VISIBLE);
                         errorView.setVisibility(View.INVISIBLE);
-                        ParseFeedingWorksForShoppers.retrievePostFromParse(true);
+                        ParseFeedingWorksForRetailers.retrievePostFromParse(true,ParseUser.getCurrentUser().toString());
 
 
                     }

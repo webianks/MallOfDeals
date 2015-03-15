@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -45,8 +46,6 @@ public class MainActivity extends ActionBarActivity {
         mSlidingTabLayout= (SlidingTabLayout) findViewById(R.id.slide_tabs);
 
 
-
-
             sharedpreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
             boolean logged_in_user = sharedpreferences.getBoolean("logged_in", false);
 
@@ -58,7 +57,6 @@ public class MainActivity extends ActionBarActivity {
                         .commit();
 
             }
-
 
 
             else{
@@ -156,7 +154,8 @@ public class MainActivity extends ActionBarActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_home),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_book_ticket).withTag("ticket"),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_book_taxi).withTag("cab"),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withTag("logout")
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -167,6 +166,20 @@ public class MainActivity extends ActionBarActivity {
 
                         if (drawerItem.getTag() == "logout") {
                             logoutFromApp();
+                        }
+                        if (drawerItem.getTag() == "ticket") {
+
+                            String url = "http://in.bookmyshow.com/";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                        if (drawerItem.getTag() == "cab") {
+
+                            String url = "http://www.olacabs.com/";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
                         }
                     }
                 })

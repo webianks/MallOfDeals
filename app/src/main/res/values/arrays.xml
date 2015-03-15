@@ -2,7 +2,6 @@
 <resources>
     <string-array name="roles_array">
 
-        <item>Mall Owner</item>
 
         <item>Shop Owner</item>
 

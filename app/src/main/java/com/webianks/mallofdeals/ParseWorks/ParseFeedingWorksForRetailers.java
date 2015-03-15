@@ -93,7 +93,7 @@ public class ParseFeedingWorksForRetailers {
 				con);
 		mBuilder.setContentTitle("Mall Of Deals")
 				.setContentText("Post upload in progress.").setLargeIcon(icon)
-				.setSmallIcon(R.mipmap.ic_launcher);
+				.setSmallIcon(R.drawable.ic_mini);
 
 		mBuilder.setProgress(0, 0, true);
 		// Issues the notification
@@ -127,9 +127,10 @@ public class ParseFeedingWorksForRetailers {
 
 
 
-	public static void retrievePostFromParse(final boolean is_refreshing) {
+	public static void retrievePostFromParse(final boolean is_refreshing,String user) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+        query.whereEqualTo("user",user);
 		 query.findInBackground(new FindCallback<ParseObject>() {
 
 			public void done(List<ParseObject> posts, ParseException e) {
@@ -187,13 +188,11 @@ public class ParseFeedingWorksForRetailers {
 	}
 
 
-
-
-
-    public static void retrieveRetailerCouponsFromParse(final boolean is_refreshing) {
+    public static void retrieveRetailerCouponsFromParse(final boolean is_refreshing, String user) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Coupons");
 
+        query.whereEqualTo("user",user);
         query.findInBackground(new FindCallback<ParseObject>() {
 
             public void done(List<ParseObject> posts, ParseException e) {
@@ -253,11 +252,12 @@ public class ParseFeedingWorksForRetailers {
 
 
 
-    public static void retrieveRetailerSalesFromParse(final boolean is_refreshing) {
+    public static void retrieveRetailerSalesFromParse(final boolean is_refreshing,String user) {
 
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sales");
 
+        query.whereEqualTo("user",user);
         query.findInBackground(new FindCallback<ParseObject>() {
 
             public void done(List<ParseObject> posts, ParseException e) {
@@ -319,9 +319,11 @@ public class ParseFeedingWorksForRetailers {
 
 
 
-    public static void retrieveRetailerSalesLocally(final boolean is_refreshing) {
+
+    public static void retrieveRetailerSalesLocally(final boolean is_refreshing,String user) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sales");
+        query.whereEqualTo("user",user);
         query.fromLocalDatastore();
         query.findInBackground(new FindCallback<ParseObject>() {
 
@@ -373,8 +375,9 @@ public class ParseFeedingWorksForRetailers {
 
 
 
-    public static void retrieveRetailerEventsLocally(final boolean is_refreshing) {
+    public static void retrieveRetailerEventsLocally(final boolean is_refreshing,String user) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+        query.whereEqualTo("user",user);
         query.fromLocalDatastore();
         query.findInBackground(new FindCallback<ParseObject>() {
 
@@ -431,8 +434,9 @@ public class ParseFeedingWorksForRetailers {
         });
     }
 
-    public static void retrieveRetailerCouponsLocally(final boolean is_refreshing) {
+    public static void retrieveRetailerCouponsLocally(final boolean is_refreshing,String user) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Coupons");
+        query.whereEqualTo("user",user);
         query.fromLocalDatastore();
         query.findInBackground(new FindCallback<ParseObject>() {
 

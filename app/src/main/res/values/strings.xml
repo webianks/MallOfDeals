@@ -16,4 +16,6 @@
     <string name="pick_role">You are ?</string>
     <string name="title_activity_post">New</string>
     <string name="crop__pick_error">Can not pick a image.</string>
+    <string name="drawer_item_book_ticket">Book Movie Ticket</string>
+    <string name="drawer_item_book_taxi">Book A Cab</string>
 </resources>

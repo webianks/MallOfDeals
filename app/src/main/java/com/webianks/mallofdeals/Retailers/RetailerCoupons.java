@@ -13,14 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import com.parse.ParseUser;
 import com.webianks.mallofdeals.Network.IsConnectedToNetwork;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForRetailers;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForShoppers;
 import com.webianks.mallofdeals.R;
-
 import java.util.List;
-
 import tr.xip.errorview.ErrorView;
 import tr.xip.errorview.RetryListener;
 
@@ -37,6 +35,8 @@ public class RetailerCoupons extends Fragment {
     private static SwipeRefreshLayout swipeLayout;
     private static ErrorView errorView;
     private SharedPreferences prefs = null;
+    private static String user;
+    private SharedPreferences sharedpreferences;
 
 
     @Override
@@ -51,6 +51,8 @@ public class RetailerCoupons extends Fragment {
         mProgressBar.setVisibility(View.VISIBLE);
 
 
+        sharedpreferences = getActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        user=sharedpreferences.getString("user"," ");
 
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -58,7 +60,7 @@ public class RetailerCoupons extends Fragment {
             @Override
             public void onRefresh() {
 
-                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true);
+                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true,user);
                 swipeLayout.setRefreshing(true);
             }
 
@@ -81,20 +83,21 @@ public class RetailerCoupons extends Fragment {
 
         prefs = getActivity().getSharedPreferences("com.webianks.mallofdeals", Context.MODE_PRIVATE);
 
+
         if (prefs.getBoolean("firstrun", true) && savedInstanceState==null) {
             // Do first run stuff here then set 'firstrun' as false
             if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
 
-                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(false);
+                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(false,user);
                 prefs.edit().putBoolean("firstrun", false).commit();
             }
 
         }else{
             //subsequent run of app.
-            ParseFeedingWorksForRetailers.retrieveRetailerCouponsLocally(false);
+            ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(false,user);
             //now check for the new content
             if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
-                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true);
+                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true,user);
             }
         }
 
@@ -119,6 +122,7 @@ public class RetailerCoupons extends Fragment {
                 mProgressBar.setVisibility(View.INVISIBLE);
 
             } else {
+                
                 mProgressBar.setVisibility(View.INVISIBLE);
                 errorView.setVisibility(View.VISIBLE);
                 errorView.setError(504);
@@ -133,7 +137,7 @@ public class RetailerCoupons extends Fragment {
 
                         mProgressBar.setVisibility(View.VISIBLE);
                         errorView.setVisibility(View.INVISIBLE);
-                        ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(true);
+                        ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true,user);
 
 
                     }

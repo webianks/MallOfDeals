@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -44,7 +45,7 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
     Typeface tfSlab;
     String inTable;
     TextView title;
-
+    private SharedPreferences prefs = null;
 
     @SuppressLint("NewApi")
     @Override

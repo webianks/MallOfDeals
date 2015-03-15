@@ -14,7 +14,6 @@ import com.parse.SignUpCallback;
 import com.webianks.mallofdeals.MainActivity;
 import com.webianks.mallofdeals.R;
 import com.webianks.mallofdeals.TypefaceSpan;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
@@ -22,7 +21,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -30,7 +28,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -46,7 +43,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SignUpFragment extends Fragment implements
         OnClickListener {
@@ -54,11 +50,9 @@ public class SignUpFragment extends Fragment implements
     EditText regUser, regPas, resRePas;
     AutoCompleteTextView regEmail;
     Button regMain;
-    TextView tvRegistrationErrors;
     String error;
     String[] userData = new String[4];
     boolean success = false;
-    AlertDialog myDialog;
     ProgressDialog mProgressDialog;
     String changing_email, changing_user, changing_pass, changing_repass;
     SharedPreferences sharedpreferences;
@@ -505,13 +499,11 @@ public class SignUpFragment extends Fragment implements
                         String type="";
 
                        switch (which){
+
                            case 0:
-                               type="mall_admin";
-                               break;
-                           case 1:
                                type="retailer";
                                break;
-                           case 2:
+                           case 1:
                                type="shopper";
                                break;
                        }

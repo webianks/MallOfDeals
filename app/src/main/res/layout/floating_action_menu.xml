@@ -15,13 +15,13 @@
         fab:fab_labelStyle="@style/menu_labels_style"
         fab:fab_labelsPosition="left">
 
-
         <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/material_drawer_primary"
             fab:fab_title="Add new Coupon"
             fab:fab_size="mini"
+            fab:fab_icon="@drawable/coupon"
             android:id="@+id/new_coupon_button"
             fab:fab_colorPressed="@color/white_pressed"/>
 
@@ -31,6 +31,7 @@
             fab:fab_colorNormal="@color/material_drawer_primary"
             fab:fab_title="Add new Event"
             fab:fab_size="mini"
+            fab:fab_icon="@drawable/event"
             android:id="@+id/new_event_button"
             fab:fab_colorPressed="@color/white_pressed"/>
 
@@ -41,6 +42,7 @@
             fab:fab_colorNormal="@color/material_drawer_primary"
             fab:fab_title="Add new Sale"
             fab:fab_size="mini"
+            fab:fab_icon="@drawable/sale"
             android:id="@+id/new_sale_button"
             fab:fab_colorPressed="@color/white_pressed"/>
 

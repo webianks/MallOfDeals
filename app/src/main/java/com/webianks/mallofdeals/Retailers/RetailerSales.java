@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 import com.webianks.mallofdeals.Network.IsConnectedToNetwork;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForRetailers;
@@ -71,7 +72,7 @@ public class RetailerSales extends Fragment {
             @Override
             public void onRefresh() {
 
-                ParseFeedingWorksForRetailers.retrieveRetailerSalesFromParse(true);
+                ParseFeedingWorksForRetailers.retrievePostFromParse(true,ParseUser.getCurrentUser().toString());
                 swipeLayout.setRefreshing(true);
             }
 
@@ -136,17 +137,17 @@ public class RetailerSales extends Fragment {
             // Do first run stuff here then set 'firstrun' as false
 
             if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
-                ParseFeedingWorksForRetailers.retrievePostFromParse(false);
+                ParseFeedingWorksForRetailers.retrievePostFromParse(false,ParseUser.getCurrentUser().toString());
                 prefs.edit().putBoolean("firstrun", false).commit();
             }
 
         }else{
             //subsequent run of app.
 
-            ParseFeedingWorksForRetailers.retrieveRetailerSalesLocally(false);
+            ParseFeedingWorksForRetailers.retrieveRetailerSalesLocally(false,ParseUser.getCurrentUser().toString());
             //now check for the new content
             if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
-                ParseFeedingWorksForRetailers.retrievePostFromParse(true);
+                ParseFeedingWorksForRetailers.retrievePostFromParse(true,ParseUser.getCurrentUser().toString());
             }
         }
 
@@ -189,7 +190,7 @@ public class RetailerSales extends Fragment {
                     private void retry() {
                         mProgressBar.setVisibility(View.VISIBLE);
                         errorView.setVisibility(View.INVISIBLE);
-                        ParseFeedingWorksForShoppers.retrieveShopperSalesFromParse(true);
+                        ParseFeedingWorksForRetailers.retrieveRetailerSalesFromParse(true,ParseUser.getCurrentUser().toString());
                     }
                 });
             }
