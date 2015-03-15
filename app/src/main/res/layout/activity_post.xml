@@ -1,0 +1,89 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:paddingTop="@dimen/tool_bar_top_padding">
+
+        <include
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_toolbar_included"
+            android:layout_width="fill_parent"
+            layout="@layout/my_toolbar"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee" >
+
+        <RelativeLayout
+            android:id="@+id/main_activity_rl2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:paddingBottom="15dip" >
+
+
+            <TextView
+                android:id="@+id/etQuestion"
+                android:textStyle="italic"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="20dip"
+                android:textSize="18sp"
+                android:hint="Give the title of the event."
+                android:paddingLeft="8dip"
+                android:textColorHint="#747674" />
+
+            <EditText
+                android:id="@+id/etOption1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etQuestion"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="25dip"
+                android:background="@drawable/edit_text_ui"
+                android:hint="Title"
+                android:textSize="18sp"
+                android:paddingLeft="8dip"
+                android:textColorHint="#747674" />
+
+            <RelativeLayout
+
+                android:id="@+id/postImage"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/etOption1"
+                android:layout_margin="20dip"
+                android:background="#dfdcdc" >
+
+                <ImageButton
+                    android:id="@+id/uploadPic"
+                    android:layout_width="40dip"
+                    android:layout_height="33dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/camera"
+                    android:padding="5dip" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</LinearLayout>

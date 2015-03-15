@@ -3,8 +3,8 @@ package com.webianks.mallofdeals.Shoppers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorks;
+import com.webianks.mallofdeals.Network.IsConnectedToNetwork;
+import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForShoppers;
 import com.webianks.mallofdeals.R;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class ShopperEvents extends Fragment {
     private static RelativeLayout mainContent;
     private static SwipeRefreshLayout swipeLayout;
     private static ErrorView errorView;
+    private SharedPreferences prefs = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +58,7 @@ public class ShopperEvents extends Fragment {
             @Override
             public void onRefresh() {
 
-                ParseFeedingWorks.retrievePostFromParse(true);
+                ParseFeedingWorksForShoppers.retrievePostFromParse(true);
                 swipeLayout.setRefreshing(true);
             }
 
@@ -75,18 +78,28 @@ public class ShopperEvents extends Fragment {
         super.onCreate(savedInstanceState);
         con = getActivity();
         activity= getActivity();
+
+        prefs = getActivity().getSharedPreferences("com.webianks.mallofdeals", Context.MODE_PRIVATE);
+
+
+        if (prefs.getBoolean("firstrun", true) && savedInstanceState==null) {
+            // Do first run stuff here then set 'firstrun' as false
+
+            if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
+                ParseFeedingWorksForShoppers.retrievePostFromParse(false);
+                prefs.edit().putBoolean("firstrun", false).commit();
+            }
+
+        }else{
+            //subsequent run of app.
+            ParseFeedingWorksForShoppers.retrieveShopperEventsLocally(false);
+            //now check for the new content
+            if(IsConnectedToNetwork.isConnectedNet(getActivity()))
+                ParseFeedingWorksForShoppers.retrievePostFromParse(true);
+        }
+
+
     }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
-        String[] items={"A","B","C"};
-
-        ParseFeedingWorks.retrievePostFromParse(false);
-    }
-
-
 
 
     public static void parseRetreivingCallback(
@@ -96,17 +109,17 @@ public class ShopperEvents extends Fragment {
             String message) {
 
 
-
+        if (!refresh_code) {
             if (sgClassList != null) {
 
                 SetterGetterClassList = sgClassList;
 
-                shopperEventsAdapter = new ShopperEventsAdapter(con,activity,
+                shopperEventsAdapter = new ShopperEventsAdapter(con, activity,
                         SetterGetterClassList);
                 mListView.setAdapter(shopperEventsAdapter);
                 mProgressBar.setVisibility(View.INVISIBLE);
 
-           }else{
+            } else {
                 mProgressBar.setVisibility(View.INVISIBLE);
                 errorView.setVisibility(View.VISIBLE);
                 errorView.setError(504);
@@ -121,14 +134,44 @@ public class ShopperEvents extends Fragment {
 
                         mProgressBar.setVisibility(View.VISIBLE);
                         errorView.setVisibility(View.INVISIBLE);
-                        ParseFeedingWorks.retrievePostFromParse(true);
+                        ParseFeedingWorksForShoppers.retrievePostFromParse(true);
 
 
                     }
                 });
             }
-    }
 
+        } else {
+
+        //List now need to be refreshed.
+
+            if (sgClassList != null) {
+
+                if (shopperEventsAdapter != null) {
+
+                    if(SetterGetterClassList!=null){
+                        SetterGetterClassList.clear();
+                        SetterGetterClassList.addAll(sgClassList);
+                    }
+
+                    shopperEventsAdapter.notifyDataSetChanged();
+
+                } else {
+                    mListView.setAdapter(shopperEventsAdapter);
+                    mainContent.setVisibility(View.VISIBLE);
+                }
+
+                swipeLayout.setRefreshing(false);
+
+
+            } else {
+                swipeLayout.setRefreshing(false);
+                Toast.makeText(con, "Failed to update! Check network connection.", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+    }
 
 
 }

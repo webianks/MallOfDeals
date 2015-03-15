@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/material_drawer_accent"
+        fab:fab_addButtonColorPressed="@color/white_pressed"
+        fab:fab_addButtonPlusIconColor="@color/white"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left">
+
+
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/material_drawer_primary"
+            fab:fab_title="Add new Coupon"
+            fab:fab_size="mini"
+            android:id="@+id/new_coupon_button"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/material_drawer_primary"
+            fab:fab_title="Add new Event"
+            fab:fab_size="mini"
+            android:id="@+id/new_event_button"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/material_drawer_primary"
+            fab:fab_title="Add new Sale"
+            fab:fab_size="mini"
+            android:id="@+id/new_sale_button"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+
+    </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
+
+</RelativeLayout>

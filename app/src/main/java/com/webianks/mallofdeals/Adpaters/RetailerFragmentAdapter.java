@@ -1,17 +1,17 @@
 package com.webianks.mallofdeals.Adpaters;
 
 
-
-import com.webianks.mallofdeals.Shoppers.ShopperCoupons;
-import com.webianks.mallofdeals.Shoppers.ShopperEvents;
-import com.webianks.mallofdeals.Shoppers.ShopperSales;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import com.webianks.mallofdeals.Retailers.RetailerCoupons;
+import com.webianks.mallofdeals.Retailers.RetailerEvents;
+import com.webianks.mallofdeals.Retailers.RetailerSales;
 
-public class FragmentAdapter extends FragmentStatePagerAdapter{
 
-    public FragmentAdapter(FragmentManager fm) {
+public class RetailerFragmentAdapter extends FragmentStatePagerAdapter{
+
+    public RetailerFragmentAdapter(FragmentManager fm) {
         super(fm);
         // TODO Auto-generated constructor stub
     }
@@ -23,19 +23,18 @@ public class FragmentAdapter extends FragmentStatePagerAdapter{
     public Fragment getItem(int position) 
     {
         // TODO Auto-generated method stub
-        Fragment fragment = new ShopperCoupons();
+        Fragment fragment = new RetailerCoupons();
 
         switch(position){
 
         case 0:
-            fragment = new ShopperSales();
-
+            fragment = new RetailerSales();
             break;
         case 1:
-            fragment = new ShopperEvents();
+            fragment = new RetailerEvents();
             break;
         case 2:
-            fragment = new ShopperCoupons();
+            fragment = new RetailerCoupons();
             break;
         }
         return fragment;

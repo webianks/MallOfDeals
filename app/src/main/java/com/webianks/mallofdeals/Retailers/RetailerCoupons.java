@@ -1,4 +1,4 @@
-package com.webianks.mallofdeals.Shoppers;
+package com.webianks.mallofdeals.Retailers;
 
 
 import android.app.Activity;
@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.webianks.mallofdeals.Network.IsConnectedToNetwork;
+import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForRetailers;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForShoppers;
 import com.webianks.mallofdeals.R;
 
@@ -24,24 +25,25 @@ import tr.xip.errorview.ErrorView;
 import tr.xip.errorview.RetryListener;
 
 
-public class ShopperCoupons extends Fragment {
+public class RetailerCoupons extends Fragment {
 
 
     private static ListView mListView;
     private static Context con;
     private static Activity activity;
-    static List<ShoppersCouponsSetterGetter> SetterGetterClassList;
-    static ShopperCouponsAdapter shopperEventsAdapter = null;
+    static List<RetailerCouponsSetterGetter> SetterGetterClassList;
+    static RetailerCouponsAdapter shopperEventsAdapter = null;
     static ProgressBar mProgressBar;
     private static SwipeRefreshLayout swipeLayout;
     private static ErrorView errorView;
     private SharedPreferences prefs = null;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shopper_coupons, container, false);
+        View view = inflater.inflate(R.layout.fragment_retailer_coupons, container, false);
 
         mListView = (ListView) view.findViewById(R.id.main_list_view);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -56,7 +58,7 @@ public class ShopperCoupons extends Fragment {
             @Override
             public void onRefresh() {
 
-                ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(true);
+                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true);
                 swipeLayout.setRefreshing(true);
             }
 
@@ -83,16 +85,17 @@ public class ShopperCoupons extends Fragment {
             // Do first run stuff here then set 'firstrun' as false
             if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
 
-                ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(false);
+                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(false);
                 prefs.edit().putBoolean("firstrun", false).commit();
             }
 
         }else{
             //subsequent run of app.
-            ParseFeedingWorksForShoppers.retrieveShopperCouponsLocally(false);
+            ParseFeedingWorksForRetailers.retrieveRetailerCouponsLocally(false);
             //now check for the new content
-            if(IsConnectedToNetwork.isConnectedNet(getActivity()))
-                ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(true);
+            if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
+                ParseFeedingWorksForRetailers.retrieveRetailerCouponsFromParse(true);
+            }
         }
 
 
@@ -100,7 +103,7 @@ public class ShopperCoupons extends Fragment {
 
     public static void parseRetreivingCallback(
 
-            List<ShoppersCouponsSetterGetter> sgClassList,
+            List<RetailerCouponsSetterGetter> sgClassList,
             Boolean refresh_code,
             String message) {
 
@@ -110,7 +113,7 @@ public class ShopperCoupons extends Fragment {
 
                 SetterGetterClassList = sgClassList;
 
-                shopperEventsAdapter = new ShopperCouponsAdapter(con, activity,
+                shopperEventsAdapter = new RetailerCouponsAdapter(con, activity,
                         SetterGetterClassList);
                 mListView.setAdapter(shopperEventsAdapter);
                 mProgressBar.setVisibility(View.INVISIBLE);
@@ -138,7 +141,7 @@ public class ShopperCoupons extends Fragment {
             }
         } else {
 
-            //List now need to be refreshed.
+            //List now needs to be refreshed.
 
             if (sgClassList != null) {
 

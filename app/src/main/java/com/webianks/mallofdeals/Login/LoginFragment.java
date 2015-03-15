@@ -241,9 +241,12 @@ public class LoginFragment extends Fragment {
 
 
                 getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                ((MainActivity)getActivity()).setUpEverthing(getActivity(),username,email,type);
 
-
+                if(type.contains("shopper"))
+                    ((MainActivity)getActivity()).setUpEverthingForShopper(getActivity(), username, email, type);
+                else if(type.contains("retailer")){
+                    ((MainActivity)getActivity()).setUpEverthingForRetailer(getActivity(), username, email, type);
+                }
             }
         }
 

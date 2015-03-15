@@ -26,8 +26,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.squareup.picasso:picasso:2.5.0'
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'com.github.xiprox.errorview:library:1.0.0'
+    compile 'net.i2p.android.ext:floatingactionbutton:1.8.0'
 }

@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.webianks.mallofdeals.Adpaters.FragmentAdapter;
+import com.webianks.mallofdeals.Adpaters.RetailerFragmentAdapter;
+import com.webianks.mallofdeals.Adpaters.ShoppersFragmentAdapter;
 import com.webianks.mallofdeals.Login.LoginFragment;
-import com.webianks.mallofdeals.Login.SignUpFragment;
-import com.webianks.mallofdeals.Shoppers.ShopperEvents;
 import com.webianks.mallofdeals.TabsLayout.SlidingTabLayout;
 
 public class MainActivity extends ActionBarActivity {
@@ -66,12 +66,15 @@ public class MainActivity extends ActionBarActivity {
                 String user=sharedpreferences.getString("user"," ");
                 String email=sharedpreferences.getString("email"," ");
                 String type=sharedpreferences.getString("type"," ");
-                setUpEverthing(this,user,email,type);
+                if(type.contains("shopper")) {
+                    setUpEverthingForShopper(this, user, email, type);
+                }
+                else if(type.contains("retailer")){
+                    setUpEverthingForRetailer(this, user, email, type);
+                }
+
 
           }
-
-
-
 }
 
 
@@ -101,10 +104,13 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    public  void setUpEverthing(Activity activity,String username,String email,String type) {
+    public  void setUpEverthingForShopper(Activity activity,String username,String email,String type) {
+
+
+        Log.d("Webi","setUpEverthingForShopper");
 
         setSupportActionBar(toolbar);
-        mViewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
+        mViewPager.setAdapter(new ShoppersFragmentAdapter(getSupportFragmentManager()));
         mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
@@ -166,6 +172,81 @@ public class MainActivity extends ActionBarActivity {
                 })
                 .build();
     }
+
+
+
+
+
+    public  void setUpEverthingForRetailer(Activity activity,String username,String email,String type) {
+
+
+        Log.d("Webi","setUpEverthingForRetailer");
+
+                setSupportActionBar(toolbar);
+        mViewPager.setAdapter(new RetailerFragmentAdapter(getSupportFragmentManager()));
+        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.accent);
+            }
+        });
+        mSlidingTabLayout.setViewPager(mViewPager);
+
+        Drawable drawable=getResources().getDrawable(R.drawable.profile);
+
+        if(type.contains("shopper")){
+            drawable=getResources().getDrawable(R.drawable.shopper);
+        }else if(type.contains("mall_admin")){
+            drawable=getResources().getDrawable(R.drawable.mall);
+        }else if(type.contains("retailer")){
+            drawable=getResources().getDrawable(R.drawable.retailer);
+        }
+
+
+
+        AccountHeader.Result headerResult = new AccountHeader()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        new ProfileDrawerItem().withName(username).withEmail(email).withIcon(drawable)
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public void onProfileChanged(View view, IProfile profile) {
+
+                    }
+                })
+                .build();
+
+
+        Drawer.Result result = new Drawer()
+                .withActivity(activity)
+                .withHeader(R.layout.header)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .withActionBarDrawerToggle(true)
+                .withTranslucentStatusBar(true)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_home),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withTag("logout")
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+
+
+                        if (drawerItem.getTag() == "logout") {
+                            logoutFromApp();
+                        }
+                    }
+                })
+                .build();
+    }
+
+
 
 
     private void logoutFromApp() {

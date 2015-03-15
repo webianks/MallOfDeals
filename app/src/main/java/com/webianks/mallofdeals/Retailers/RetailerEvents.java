@@ -1,4 +1,4 @@
-package com.webianks.mallofdeals.Shoppers;
+package com.webianks.mallofdeals.Retailers;
 
 
 import android.app.Activity;
@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.webianks.mallofdeals.Network.IsConnectedToNetwork;
+import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForRetailers;
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorksForShoppers;
 import com.webianks.mallofdeals.R;
 
@@ -24,15 +26,16 @@ import tr.xip.errorview.ErrorView;
 import tr.xip.errorview.RetryListener;
 
 
-public class ShopperCoupons extends Fragment {
+public class RetailerEvents extends Fragment {
 
 
     private static ListView mListView;
     private static Context con;
     private static Activity activity;
-    static List<ShoppersCouponsSetterGetter> SetterGetterClassList;
-    static ShopperCouponsAdapter shopperEventsAdapter = null;
+    static List<RetailerEventsSetterGetter> SetterGetterClassList;
+    static RetailerEventsAdapter shopperEventsAdapter = null;
     static ProgressBar mProgressBar;
+    private static RelativeLayout mainContent;
     private static SwipeRefreshLayout swipeLayout;
     private static ErrorView errorView;
     private SharedPreferences prefs = null;
@@ -41,11 +44,11 @@ public class ShopperCoupons extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shopper_coupons, container, false);
+        View view = inflater.inflate(R.layout.fragment_retailer_events, container, false);
 
         mListView = (ListView) view.findViewById(R.id.main_list_view);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        errorView= (ErrorView) view.findViewById(R.id.error_view_coupons);
+        errorView= (ErrorView) view.findViewById(R.id.error_view);
         mProgressBar.setVisibility(View.VISIBLE);
 
 
@@ -56,7 +59,7 @@ public class ShopperCoupons extends Fragment {
             @Override
             public void onRefresh() {
 
-                ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(true);
+                ParseFeedingWorksForRetailers.retrievePostFromParse(true);
                 swipeLayout.setRefreshing(true);
             }
 
@@ -79,38 +82,41 @@ public class ShopperCoupons extends Fragment {
 
         prefs = getActivity().getSharedPreferences("com.webianks.mallofdeals", Context.MODE_PRIVATE);
 
+
         if (prefs.getBoolean("firstrun", true) && savedInstanceState==null) {
             // Do first run stuff here then set 'firstrun' as false
-            if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
 
-                ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(false);
+            if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
+                //ParseFeedingWorks.retrievePostFromParse(false);
                 prefs.edit().putBoolean("firstrun", false).commit();
             }
 
         }else{
             //subsequent run of app.
-            ParseFeedingWorksForShoppers.retrieveShopperCouponsLocally(false);
+            ParseFeedingWorksForRetailers.retrieveRetailerEventsLocally(false);
             //now check for the new content
-            if(IsConnectedToNetwork.isConnectedNet(getActivity()))
-                ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(true);
+            if(IsConnectedToNetwork.isConnectedNet(getActivity())) {
+                ParseFeedingWorksForRetailers.retrievePostFromParse(true);
+            }
         }
 
 
     }
 
+
     public static void parseRetreivingCallback(
 
-            List<ShoppersCouponsSetterGetter> sgClassList,
+            List<RetailerEventsSetterGetter> sgClassList,
             Boolean refresh_code,
             String message) {
 
-        if (!refresh_code) {
 
+        if (!refresh_code) {
             if (sgClassList != null) {
 
                 SetterGetterClassList = sgClassList;
 
-                shopperEventsAdapter = new ShopperCouponsAdapter(con, activity,
+                shopperEventsAdapter = new RetailerEventsAdapter(con, activity,
                         SetterGetterClassList);
                 mListView.setAdapter(shopperEventsAdapter);
                 mProgressBar.setVisibility(View.INVISIBLE);
@@ -130,15 +136,16 @@ public class ShopperCoupons extends Fragment {
 
                         mProgressBar.setVisibility(View.VISIBLE);
                         errorView.setVisibility(View.INVISIBLE);
-                        ParseFeedingWorksForShoppers.retrieveShopperCouponsFromParse(true);
+                        ParseFeedingWorksForShoppers.retrievePostFromParse(true);
 
 
                     }
                 });
             }
+
         } else {
 
-            //List now need to be refreshed.
+        //List now need to be refreshed.
 
             if (sgClassList != null) {
 
@@ -153,6 +160,7 @@ public class ShopperCoupons extends Fragment {
 
                 } else {
                     mListView.setAdapter(shopperEventsAdapter);
+                    mainContent.setVisibility(View.VISIBLE);
                 }
 
                 swipeLayout.setRefreshing(false);
@@ -168,6 +176,5 @@ public class ShopperCoupons extends Fragment {
     }
 
 
-
-
 }
+

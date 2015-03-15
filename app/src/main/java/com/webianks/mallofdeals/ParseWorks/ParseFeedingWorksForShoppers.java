@@ -17,7 +17,6 @@ import com.webianks.mallofdeals.Shoppers.ShopperSales;
 import com.webianks.mallofdeals.Shoppers.ShoppersCouponsSetterGetter;
 import com.webianks.mallofdeals.Shoppers.ShoppersEventsSetterGetter;
 import com.webianks.mallofdeals.Shoppers.ShoppersSalesSetterGetter;
-
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,82 +26,12 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 
-public class ParseFeedingWorks {
-
-	public static void uploadPostToParse(final Context con, String user,
-			String postQue, Bitmap bitmap) {
-
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-	    byte[] image = stream.toByteArray();
-
-		ParseFile file = new ParseFile("post.png", image);
-		file.saveInBackground();
-
-		
-		long now = System.currentTimeMillis();
-		
-		ParseObject webiObject = new ParseObject("Posts");
-		webiObject.put("User", user);
-		webiObject.put("PostTime",now);
-		webiObject.put("ImageName", "post_image_name");
-		webiObject.put("ImageFile", file);
-		webiObject.put("TotalHit",0);
-
-		Drawable drawable = con.getResources().getDrawable(
-				R.mipmap.ic_launcher);
-		BitmapDrawable bdrawable = (BitmapDrawable) drawable;
-		Bitmap icon = bdrawable.getBitmap();
-
-		final int id = 1;
-		final NotificationManager mNotifyManager = (NotificationManager) con
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				con);
-		mBuilder.setContentTitle("Mall Of Deals")
-				.setContentText("Post upload in progress.").setLargeIcon(icon)
-				.setSmallIcon(R.mipmap.ic_launcher);
-
-		mBuilder.setProgress(0, 0, true);
-		// Issues the notification
-		mNotifyManager.notify(id, mBuilder.build());
-
-		webiObject.saveInBackground(new SaveCallback() {
-
-			@Override
-			public void done(ParseException e) {
-				// TODO Auto-generated method stub
-				if (e == null) {
-
-					mBuilder.setContentText("Upload complete")
-					// Removes the progress bar
-							.setProgress(0, 0, false);
-					mNotifyManager.notify(id, mBuilder.build());
-					//Post_Activity.parseSavingCallback(true, con);
-				} else {
-
-					mBuilder.setContentText("Failed to upload.")
-					// Removes the progress bar
-							.setProgress(0, 0, false);
-					mNotifyManager.notify(id, mBuilder.build());
-					//Post_Activity.parseSavingCallback(false, con);
-				}
-			}
-
-		});
-
-	}
-
-
-
-
-
+public class ParseFeedingWorksForShoppers {
 
 
 	public static void retrievePostFromParse(final boolean is_refreshing) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
-
 		 query.findInBackground(new FindCallback<ParseObject>() {
 
 			public void done(List<ParseObject> posts, ParseException e) {
@@ -113,6 +42,7 @@ public class ParseFeedingWorks {
 				if (e == null && posts.size() != 0) {
 
 
+                    ParseObject.pinAllInBackground(posts);
 
 					for (int i = posts.size()-1; i >= 0; i--) {
 
@@ -175,7 +105,7 @@ public class ParseFeedingWorks {
 
                 if (e == null && posts.size() != 0) {
 
-
+                    ParseObject.pinAllInBackground(posts);
 
                     for (int i = posts.size()-1; i >= 0; i--) {
 
@@ -226,11 +156,15 @@ public class ParseFeedingWorks {
 
 
     public static void retrieveShopperSalesFromParse(final boolean is_refreshing) {
+
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sales");
 
         query.findInBackground(new FindCallback<ParseObject>() {
 
             public void done(List<ParseObject> posts, ParseException e) {
+
+
 
                 final List<ShoppersSalesSetterGetter> SetterGetterClassList = new ArrayList<ShoppersSalesSetterGetter>();
                 ShoppersSalesSetterGetter setterGetter = null;
@@ -238,6 +172,7 @@ public class ParseFeedingWorks {
                 if (e == null && posts.size() != 0) {
 
 
+                    ParseObject.pinAllInBackground(posts);
 
                     for (int i = posts.size()-1; i >= 0; i--) {
 
@@ -276,9 +211,183 @@ public class ParseFeedingWorks {
                     }
 
                 } else {
+
+                    ShopperSales.parseRetreivingCallback(null, is_refreshing, " ");
+                }
+            }
+        });
+    }
+
+
+
+
+    public static void retrieveShopperSalesLocally(final boolean is_refreshing) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sales");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            public void done(List<ParseObject> posts, ParseException e) {
+
+                final List<ShoppersSalesSetterGetter> SetterGetterClassList = new ArrayList<ShoppersSalesSetterGetter>();
+                ShoppersSalesSetterGetter setterGetter = null;
+
+                if (e == null && posts.size() != 0) {
+
+
+
+                    for (int i = posts.size()-1; i >= 0; i--) {
+                        setterGetter = new ShoppersSalesSetterGetter();
+                        ParseFile postImage = (ParseFile) posts.get(i).get(
+                                "ImageFile");
+                        String ImageUrl = postImage.getUrl().toString();
+
+                        String eventTitle = posts.get(i).getString("salesName");
+
+                        Log.d("Webi",ImageUrl+eventTitle);
+                        setterGetter.setEventName(eventTitle);
+                        setterGetter.setEventImageURl(ImageUrl);
+                        SetterGetterClassList.add(setterGetter);
+                        setterGetter = null;
+
+                    }
+                    if (!is_refreshing){
+
+
+                        ShopperSales.parseRetreivingCallback(
+                                SetterGetterClassList, is_refreshing, " ");
+                    }
+
+                    else{
+
+                        ShopperSales.parseRetreivingCallback(
+                                SetterGetterClassList, is_refreshing," ");
+                    }
+
+                } else {
+
+                    ShopperSales.parseRetreivingCallback(null, is_refreshing, " ");
+                }
+            }
+        });
+    }
+
+
+
+
+    public static void retrieveShopperEventsLocally(final boolean is_refreshing) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            public void done(List<ParseObject> posts, ParseException e) {
+
+                final List<ShoppersEventsSetterGetter> SetterGetterClassList = new ArrayList<ShoppersEventsSetterGetter>();
+                ShoppersEventsSetterGetter setterGetter = null;
+
+                if (e == null && posts.size() != 0) {
+
+
+                    ParseObject.pinAllInBackground(posts);
+
+                    for (int i = posts.size()-1; i >= 0; i--) {
+
+
+
+
+                        setterGetter = new ShoppersEventsSetterGetter();
+                        ParseFile postImage = (ParseFile) posts.get(i).get(
+                                "ImageFile");
+                        String ImageUrl = postImage.getUrl().toString();
+
+                        String eventTitle = posts.get(i).getString("eventName");
+
+                        Log.d("Webi",ImageUrl+eventTitle);
+
+
+                        setterGetter.setEventName(eventTitle);
+                        setterGetter.setEventImageURl(ImageUrl);
+
+
+                        SetterGetterClassList.add(setterGetter);
+                        setterGetter = null;
+
+                    }
+                    if (!is_refreshing){
+
+
+                        ShopperEvents.parseRetreivingCallback(
+                                SetterGetterClassList, is_refreshing, " ");
+                    }
+
+                    else{
+
+                        ShopperEvents.parseRetreivingCallback(
+                                SetterGetterClassList, is_refreshing," ");
+                    }
+
+                } else {
                     ShopperEvents.parseRetreivingCallback(null, is_refreshing," ");
                 }
             }
         });
+    }
+
+    public static void retrieveShopperCouponsLocally(final boolean is_refreshing) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Coupons");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            public void done(List<ParseObject> posts, ParseException e) {
+
+                final List<ShoppersCouponsSetterGetter> SetterGetterClassList = new ArrayList<ShoppersCouponsSetterGetter>();
+                ShoppersCouponsSetterGetter setterGetter = null;
+
+                if (e == null && posts.size() != 0) {
+
+                    ParseObject.pinAllInBackground(posts);
+
+                    for (int i = posts.size()-1; i >= 0; i--) {
+
+
+
+
+                        setterGetter = new ShoppersCouponsSetterGetter();
+                        ParseFile postImage = (ParseFile) posts.get(i).get(
+                                "ImageFile");
+                        String ImageUrl = postImage.getUrl().toString();
+
+                        String eventTitle = posts.get(i).getString("couponName");
+
+                        Log.d("Webi",ImageUrl+eventTitle);
+
+
+                        setterGetter.setEventName(eventTitle);
+                        setterGetter.setEventImageURl(ImageUrl);
+
+
+                        SetterGetterClassList.add(setterGetter);
+                        setterGetter = null;
+
+                    }
+                    if (!is_refreshing){
+
+
+                        ShopperCoupons.parseRetreivingCallback(
+                                SetterGetterClassList, is_refreshing, " ");
+                    }
+
+                    else{
+
+                        ShopperCoupons.parseRetreivingCallback(
+                                SetterGetterClassList, is_refreshing," ");
+                    }
+
+                } else {
+                    ShopperCoupons.parseRetreivingCallback(null, is_refreshing," ");
+                }
+            }
+        });
+
     }
 }
