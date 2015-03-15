@@ -10,18 +10,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-import com.webianks.mallofdeals.ListAdapter;
+
 import com.webianks.mallofdeals.ParseWorks.ParseFeedingWorks;
 import com.webianks.mallofdeals.R;
 
 import java.util.List;
 
 import tr.xip.errorview.ErrorView;
+import tr.xip.errorview.RetryListener;
 
 
 public class ShopperEvents extends Fragment {
@@ -31,7 +30,7 @@ public class ShopperEvents extends Fragment {
     private static Context con;
     private static Activity activity;
     static List<ShoppersEventsSetterGetter> SetterGetterClassList;
-    static ListAdapter listAdapter = null;
+    static ShopperEventsAdapter shopperEventsAdapter = null;
     static ProgressBar mProgressBar;
     private static RelativeLayout mainContent;
     private static SwipeRefreshLayout swipeLayout;
@@ -102,16 +101,35 @@ public class ShopperEvents extends Fragment {
 
                 SetterGetterClassList = sgClassList;
 
-                listAdapter = new ListAdapter(con,activity,
+                shopperEventsAdapter = new ShopperEventsAdapter(con,activity,
                         SetterGetterClassList);
-                mListView.setAdapter(listAdapter);
+                mListView.setAdapter(shopperEventsAdapter);
                 mProgressBar.setVisibility(View.INVISIBLE);
 
            }else{
                 mProgressBar.setVisibility(View.INVISIBLE);
+                errorView.setVisibility(View.VISIBLE);
                 errorView.setError(504);
-                Toast.makeText(con,"No events to show",Toast.LENGTH_SHORT).show();
+                errorView.setOnRetryListener(new RetryListener() {
+                    @Override
+                    public void onRetry() {
+
+                        retry();
+                    }
+
+                    private void retry() {
+
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        errorView.setVisibility(View.INVISIBLE);
+                        ParseFeedingWorks.retrievePostFromParse(true);
+
+
+                    }
+                });
             }
     }
+
+
+
 }
 

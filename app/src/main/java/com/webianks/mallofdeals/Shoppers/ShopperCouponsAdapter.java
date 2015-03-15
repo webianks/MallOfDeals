@@ -1,12 +1,5 @@
-package com.webianks.mallofdeals;
+package com.webianks.mallofdeals.Shoppers;
 
-import java.util.List;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.webianks.mallofdeals.Shoppers.ShoppersEventsSetterGetter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,20 +12,29 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.webianks.mallofdeals.R;
 
-public class ListAdapter extends BaseAdapter {
+import java.util.List;
+
+
+public class ShopperCouponsAdapter extends BaseAdapter {
 
 	private Context con;
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
 	private Activity activity;
-	List<ShoppersEventsSetterGetter> sgcl;
+	List<ShoppersCouponsSetterGetter> sgcl;
 	Typeface tfRegular;
 	Typeface tfSlab;
 
-	public ListAdapter(Context context, Activity activity,
-			List<ShoppersEventsSetterGetter> sgcl
-			) {
+	public ShopperCouponsAdapter(Context context, Activity activity,
+                                 List<ShoppersCouponsSetterGetter> sgcl
+    ) {
 
 		this.con = context;
 		this.activity = activity;

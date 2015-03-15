@@ -16,6 +16,7 @@
 
         <ListView
             android:id="@+id/main_list_view"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#EFEEEE"
@@ -23,13 +24,26 @@
             android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-
     <ProgressBar
-        android:id="@+id/pollsTapProgressBar"
+        android:id="@+id/progressBar"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        android:visibility="visible" />
+
+
+    <tr.xip.errorview.ErrorView
+
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/error_view"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ev_errorSubtitle="Failed one more time !"
+        />
+
 </RelativeLayout>
 
 
