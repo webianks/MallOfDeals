@@ -6,13 +6,13 @@
 
     android:theme="@style/MaterialDrawerTheme.Light.DarkActionBar.TranslucentStatus"
     -->
-    <color name="material_drawer_primary">#3E50B4</color>
-    <color name="material_drawer_primary_dark">#2F3E9E</color>
+    <color name="material_drawer_primary">#37474F</color>
+    <color name="material_drawer_primary_dark">#37474F</color>
     <color name="material_drawer_primary_light">#C4C9E8</color>
-    <color name="material_drawer_accent">#02A8F3</color>
+    <color name="material_drawer_accent">#FF4081</color>
     <!-- overwrite the selected colors because the primary color is to dark -->
-    <color name="material_drawer_selected_text">#536EEA</color>
-    <color name="material_drawer_dark_selected_text">#536EEA</color>
+    <color name="material_drawer_selected_text">#FF4081</color>
+    <color name="material_drawer_dark_selected_text">#FF4081</color>
 
     <!--
     Use these values (or modify them) to get a dark theme within your application

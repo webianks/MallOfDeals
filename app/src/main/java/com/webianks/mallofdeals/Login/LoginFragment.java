@@ -40,9 +40,6 @@ public class LoginFragment extends Fragment {
     private static final int RC_SIGN_IN = 0;
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -186,9 +183,16 @@ public class LoginFragment extends Fragment {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean("logged_in",true);
                     editor.putString("user",username);
+                    String email=user.getEmail();
+                    editor.putString("email",email);
+
+                    String type=user.getString("type");
+
+                    editor.putString("type",type);
                     editor.commit();
 
-                    navigateToDashboard(true,username);
+                    navigateToDashboard(true,username,email,type);
+
 
                 } else {
                     // Login failed!
@@ -220,7 +224,7 @@ public class LoginFragment extends Fragment {
 
 
 
-    public void navigateToDashboard(boolean success,String username){
+    public void navigateToDashboard(boolean success,String username,String email,String type){
 
         if(success==true){
 
@@ -237,7 +241,7 @@ public class LoginFragment extends Fragment {
 
 
                 getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                ((MainActivity)getActivity()).setDrawer(getActivity());
+                ((MainActivity)getActivity()).setUpEverthing(getActivity(),username,email,type);
 
 
             }

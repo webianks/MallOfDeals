@@ -2,10 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_gravity="center"
     android:id="@+id/loginFragment"
+    android:fillViewport="true"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/material_drawer_primary"
     >
     <RelativeLayout
 
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        android:layout_gravity="center"
+
         >
 
 
@@ -26,8 +26,8 @@
             android:textSize="18sp"
             android:textColorLink="#606060"
             android:padding="5dip"
-            android:textColor="#000000"
-            android:textColorHint="#606060"
+            android:textColor="#ffffff"
+            android:textColorHint="#eeeeee"
             android:layout_marginLeft="25dip"
             android:layout_marginRight="25dip"
             android:layout_marginTop="50dip"
@@ -37,8 +37,8 @@
 
         <EditText
 
-            android:textColor="#000000"
-            android:textColorHint="#606060"
+            android:textColor="#ffffff"
+            android:textColorHint="#eeeeee"
             android:id="@+id/etLogUserPassword"
             android:inputType="textPassword"
             android:layout_width="fill_parent"

@@ -18,8 +18,10 @@ import com.webianks.mallofdeals.TypefaceSpan;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -62,6 +64,7 @@ public class SignUpFragment extends Fragment implements
     SharedPreferences sharedpreferences;
     String username;
     TextView tvSignUp;
+    String email;
 
 
     @Override
@@ -380,13 +383,14 @@ public class SignUpFragment extends Fragment implements
         username = userData2[0];
         String password = userData2[1];
         // String password_again=userData2[2];
-        String email = userData2[3];
+        email = userData2[3];
 
         final ParseUser user = new ParseUser();
 
         user.setUsername(username);
         user.setPassword(password);
-        user.put("email", email);
+        user.setEmail(email);
+
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", username);
@@ -402,7 +406,7 @@ public class SignUpFragment extends Fragment implements
                         // loginUser(username, "Fake Password");
                     } else {
                         Log.d("Webi", "Going to signup");
-                        signupUser(user);
+                        showDialog(user);
 
                     }
                 } else {
@@ -423,8 +427,10 @@ public class SignUpFragment extends Fragment implements
 
     }
 
-    private void signupUser(ParseUser user) {
+    private void signupUser(ParseUser user, final String type) {
 
+
+        user.put("type",type);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -435,14 +441,18 @@ public class SignUpFragment extends Fragment implements
 
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putBoolean("logged_in", true);
+
                     editor.putString("user", username);
+                    editor.putString("email",email);
+                    editor.putString("type",type);
+
                     editor.commit();
 
 
                     Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("SignUpFragmentTag");
                     if(fragment != null) {
                         getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                        ((MainActivity)getActivity()).setDrawer(getActivity());
+                        ((MainActivity)getActivity()).setUpEverthing(getActivity(),username,email,type);
                     }
 
 
@@ -475,5 +485,41 @@ public class SignUpFragment extends Fragment implements
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
     }
+
+
+
+
+
+
+
+    public void showDialog (final ParseUser user) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.pick_role)
+                .setItems(R.array.roles_array, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String type="";
+
+                       switch (which){
+                           case 0:
+                               type="mall_admin";
+                               break;
+                           case 1:
+                               type="retailer";
+                               break;
+                           case 2:
+                               type="shopper";
+                               break;
+                       }
+
+                        signupUser(user,type);
+
+                    }
+                });
+        Dialog dialog=builder.create();
+        dialog.show();
+    }
+
+
 
 }

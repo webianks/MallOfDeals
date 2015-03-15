@@ -4,50 +4,50 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
-
 import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.webianks.mallofdeals.Adpaters.FragmentAdapter;
 import com.webianks.mallofdeals.Login.LoginFragment;
 import com.webianks.mallofdeals.Login.SignUpFragment;
-
+import com.webianks.mallofdeals.Shoppers.ShopperEvents;
+import com.webianks.mallofdeals.TabsLayout.SlidingTabLayout;
 
 public class MainActivity extends ActionBarActivity {
 
 
     private Toolbar toolbar;
     private SharedPreferences sharedpreferences;
+    private ViewPager mViewPager;
+    private SlidingTabLayout mSlidingTabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         toolbar= (Toolbar) findViewById(R.id.app_toolbar);
-        setSupportActionBar(toolbar);
+        mViewPager= (ViewPager) findViewById(R.id.view_pager);
+        mSlidingTabLayout= (SlidingTabLayout) findViewById(R.id.slide_tabs);
 
-        if (savedInstanceState == null) {
+
 
 
             sharedpreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-
-
             boolean logged_in_user = sharedpreferences.getBoolean("logged_in", false);
 
             if (!logged_in_user) {
@@ -59,15 +59,20 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
+
+
             else{
-                setDrawer(this);
-            }
+
+                String user=sharedpreferences.getString("user"," ");
+                String email=sharedpreferences.getString("email"," ");
+                String type=sharedpreferences.getString("type"," ");
+                setUpEverthing(this,user,email,type);
 
           }
 
 
 
-    }
+}
 
 
 
@@ -96,12 +101,50 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    public  void setDrawer(Activity activity) {
+    public  void setUpEverthing(Activity activity,String username,String email,String type) {
+
+        setSupportActionBar(toolbar);
+        mViewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
+        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.accent);
+            }
+        });
+        mSlidingTabLayout.setViewPager(mViewPager);
+
+        Drawable drawable=getResources().getDrawable(R.drawable.profile);
+
+         if(type.contains("shopper")){
+             drawable=getResources().getDrawable(R.drawable.shopper);
+         }else if(type.contains("mall_admin")){
+             drawable=getResources().getDrawable(R.drawable.mall);
+         }else if(type.contains("retailer")){
+             drawable=getResources().getDrawable(R.drawable.retailer);
+         }
+
+
+
+        AccountHeader.Result headerResult = new AccountHeader()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        new ProfileDrawerItem().withName(username).withEmail(email).withIcon(drawable)
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public void onProfileChanged(View view, IProfile profile) {
+
+                    }
+                })
+                .build();
+
 
         Drawer.Result result = new Drawer()
                 .withActivity(activity)
                 .withHeader(R.layout.header)
                 .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
                 .withActionBarDrawerToggle(true)
                 .withTranslucentStatusBar(true)
                 .addDrawerItems(
@@ -132,10 +175,9 @@ public class MainActivity extends ActionBarActivity {
         editor.putString("user"," ");
         editor.commit();
 
-        MainActivity.this.finish();
+        finish();
+
         startActivity(new Intent(this,MainActivity.class));
 
     }
-
-
 }

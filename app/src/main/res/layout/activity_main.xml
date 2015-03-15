@@ -1,13 +1,17 @@
-<RelativeLayout
+<LinearLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
+    android:orientation="vertical"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+
+
+    <LinearLayout
         android:id="@+id/toolbar_container"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:paddingTop="@dimen/tool_bar_top_padding">
@@ -15,22 +19,31 @@
         <include
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="wrap_content"
+            android:id="@+id/my_toolbar_included"
             android:layout_width="fill_parent"
             layout="@layout/my_toolbar"/>
-    </RelativeLayout>
 
-    <FrameLayout
-        android:layout_below="@id/toolbar_container"
-        android:id="@+id/frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtLabel"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+        <com.webianks.mallofdeals.TabsLayout.SlidingTabLayout
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/slide_tabs"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"/>
-    </FrameLayout>
-</RelativeLayout>
+            android:background="@color/material_drawer_primary"
+
+
+            />
+
+
+        <android.support.v4.view.ViewPager
+
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+</LinearLayout>
+

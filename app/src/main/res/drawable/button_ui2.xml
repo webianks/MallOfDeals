@@ -4,10 +4,10 @@
      <shape android:shape="rectangle"  >
          
          <corners   
-             android:bottomLeftRadius="3dp"
-          	 android:bottomRightRadius="0dp"
-   			 android:topLeftRadius="3dp"
-   			 android:topRightRadius="0dp"
+             android:bottomLeftRadius="2dp"
+          	 android:bottomRightRadius="2dp"
+   			 android:topLeftRadius="2dp"
+   			 android:topRightRadius="2dp"
              
              
              />
@@ -20,10 +20,10 @@
 <item android:state_focused="true">
      <shape android:shape="rectangle"  >
          <corners
-             android:bottomLeftRadius="3dp"
-          	 android:bottomRightRadius="0dp"
-   			 android:topLeftRadius="3dp"
-   			 android:topRightRadius="0dp" />
+             android:bottomLeftRadius="2dp"
+          	 android:bottomRightRadius="2dp"
+   			 android:topLeftRadius="2dp"
+   			 android:topRightRadius="2dp" />
          
          <stroke android:width="0.5dip" android:color="#000290d0" />
          <solid android:color="#0084FF"/>       
@@ -32,10 +32,10 @@
 <item >
     <shape android:shape="rectangle"  >
          <corners 
-             android:bottomLeftRadius="3dp"
-          	 android:bottomRightRadius="0dp"
-   			 android:topLeftRadius="3dp"
-   			 android:topRightRadius="0dp"
+             android:bottomLeftRadius="2dp"
+          	 android:bottomRightRadius="2dp"
+   			 android:topLeftRadius="2dp"
+   			 android:topRightRadius="2dp"
              
               />
          <stroke android:width="0.5dip" android:color="#000290d0" />

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="roles_array">
+
+        <item>Mall Owner</item>
+
+        <item>Shop Owner</item>
+
+        <item>Shopper</item>
+
+
+    </string-array>
+</resources>

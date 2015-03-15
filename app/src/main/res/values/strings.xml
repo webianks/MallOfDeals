@@ -13,4 +13,5 @@
     
     <string name="app_id">y7fLcvT4sUqWYCIOURuPsrg2dChl9uCGza2RDypX</string>
     <string name="client_key">Zf3opS8dqfLtvG2byKw0hrkOZafHVXlGNjEdrzKh</string>
+    <string name="pick_role">You are ?</string>
 </resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEEEE"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dip"
+        android:background="#ffffff"
+        card_view:cardBackgroundColor="#ffffff"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardPreventCornerOverlap="false" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:id="@+id/postText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="#88c058" />
+
+                <TextView
+                    android:id="@+id/tvPstQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dip"
+                    android:padding="15dip"
+                    android:text="This is for the testing purpose."
+                    android:textColor="#161616"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/postImage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/postText"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:background="#eeeeee"
+                android:src="@drawable/backg"
+                 android:adjustViewBounds="true"/>
+
+            <Button
+                android:id="@+id/btShowPopup"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="7dip"
+                android:background="@drawable/ic_action_flow"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+
+                
+
+            </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
